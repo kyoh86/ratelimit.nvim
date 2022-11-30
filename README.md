@@ -2,6 +2,18 @@
 
 Functions that allow you to call a function not more than once in a given timeframe.
 
+This is a library forked from https://github.com/runiq/neovim-throttle-debounce
+with some changes for usefulness.
+
+
+## Install
+
+e.g. Packer:
+
+```lua
+use({"kyoh86/ratelimit.nvim"})
+```
+
 ## Throttling on the leading edge
 
 This can be illustrated with timing diagrams. In the following diagrams, `f` designates call to the throttled function, `t` is the period where the timer is running, and `x` shows you the *actual* execution point of the throttled function.
