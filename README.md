@@ -14,6 +14,21 @@ e.g. Packer:
 use({"kyoh86/ratelimit.nvim"})
 ```
 
+## Usage
+
+```lua
+--- Debounces a function on the leading edge; interval=300ms
+require('ratelimit.debounce').leading(function(...)
+    ...
+end, 300)
+
+--- Throttles a function on the trailing edge; interval=50ms
+require('ratelimit.throttle').trailing(function(...)
+    ...
+end, 50)
+
+```
+
 ## Throttling on the leading edge
 
 This can be illustrated with timing diagrams. In the following diagrams, `f` designates call to the throttled function, `t` is the period where the timer is running, and `x` shows you the *actual* execution point of the throttled function.
