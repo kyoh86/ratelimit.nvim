@@ -7,7 +7,7 @@ local M = {}
 --@returns (function, timer) Debounced function and timer. Remember to call
 ---`timer:close()` at the end or you will leak memory!
 function M.leading(fn, ms)
-  require('ratelimit.args').validate(fn, ms)
+  require("ratelimit.args").validate(fn, ms)
   local timer = vim.loop.new_timer()
   local running = false
 
@@ -35,14 +35,14 @@ end
 --@returns (function, timer) Debounced function and timer. Remember to call
 ---`timer:close()` at the end or you will leak memory!
 function M.trailing(fn, ms, first)
-  require('ratelimit.args').validate(fn, ms)
+  require("ratelimit.args").validate(fn, ms)
   local timer = vim.loop.new_timer()
   local wrapped_fn
 
   if not first then
     function wrapped_fn(...)
       local argv = { ... }
-      local argc = select('#', ...)
+      local argc = select("#", ...)
 
       timer:start(ms, 0, function()
         pcall(vim.schedule_wrap(fn), unpack(argv, 1, argc))
@@ -52,7 +52,7 @@ function M.trailing(fn, ms, first)
     local argv, argc
     function wrapped_fn(...)
       argv = argv or { ... }
-      argc = argc or select('#', ...)
+      argc = argc or select("#", ...)
 
       timer:start(ms, 0, function()
         pcall(vim.schedule_wrap(fn), unpack(argv, 1, argc))
@@ -76,15 +76,15 @@ function M.test_defer(bouncer, ms, firstlast)
 
   local timeout = ms or 2000
 
-  local bounced = bouncers[bouncer](
-    function(i) vim.cmd('echom "' .. bouncer .. ': ' .. i .. '"') end,
-    timeout,
-    firstlast
-  )
+  local bounced = bouncers[bouncer](function(i)
+    vim.cmd('echom "' .. bouncer .. ": " .. i .. '"')
+  end, timeout, firstlast)
 
-  for i, _ in ipairs { 1, 2, 3, 4, 5 } do
+  for i, _ in ipairs({ 1, 2, 3, 4, 5 }) do
     bounced(i)
-    vim.schedule(function() vim.cmd('echom ' .. i) end)
+    vim.schedule(function()
+      vim.cmd("echom " .. i)
+    end)
     vim.fn.call(vim.fn.wait, { 1000, "v:false" })
   end
 end
