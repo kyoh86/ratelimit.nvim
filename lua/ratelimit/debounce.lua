@@ -8,7 +8,7 @@ local M = {}
 ---`timer:close()` at the end or you will leak memory!
 function M.leading(fn, ms)
   require("ratelimit.args").validate(fn, ms)
-  local timer = vim.loop.new_timer()
+  local timer = vim.uv.new_timer()
   local running = false
 
   local function wrapped_fn(...)
@@ -36,7 +36,7 @@ end
 ---`timer:close()` at the end or you will leak memory!
 function M.trailing(fn, ms, first)
   require("ratelimit.args").validate(fn, ms)
-  local timer = vim.loop.new_timer()
+  local timer = vim.uv.new_timer()
   local wrapped_fn
 
   if not first then
